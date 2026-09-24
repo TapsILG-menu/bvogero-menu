@@ -169,6 +169,44 @@
     border-radius: 999px;
   }
 
+  .social-links {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .social-links .review-btn,
+  .social-links .email-box {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 13px 20px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .social-links .review-btn { transition: opacity 0.15s ease; }
+  .social-links .review-btn:hover { opacity: 0.8; }
+
+  .social-links .email-box {
+    color: var(--ink);
+    background: transparent;
+    border: 1.5px solid var(--ink);
+    font-weight: 500;
+    font-family: 'Work Sans', sans-serif;
+    cursor: pointer;
+    user-select: text;
+    -webkit-user-select: text;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .social-links .email-box.copied {
+    background: var(--ink);
+    color: #FFFFFF;
+  }
+
   .review-note {
     margin-top: 12px;
     color: var(--muted);
@@ -292,7 +330,12 @@
     </section>
 
     <footer>
-      <div class="review-note">Digital menu by <strong>Taps Iligan</strong> · @taps.iligan · taps.iligan@gmail.com</div>
+      <div class="social-links">
+        <a class="review-btn" href="https://www.facebook.com/profile.php?id=61568256153104" target="_blank" rel="noopener">Facebook</a>
+        <a class="review-btn" href="https://www.instagram.com/bvogero" target="_blank" rel="noopener">Instagram</a>
+        <button type="button" class="email-box" id="copyEmail" title="Tap to copy" aria-label="Copy email address">bvogerobean@gmail.com</button>
+      </div>
+      <div class="review-note" style="margin-top:22px">Digital menu by <strong>Taps Iligan</strong> · @taps.iligan · taps.iligan@gmail.com</div>
     </footer>
   </div>
 
@@ -360,6 +403,40 @@
     tabNav.addEventListener('click', e => {
       if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
     }, true);
+
+    // Tap the email to copy it
+    const emailBtn = document.getElementById('copyEmail');
+    const emailText = emailBtn.textContent.trim();
+    let copyTimer;
+
+    function showCopied() {
+      emailBtn.textContent = 'Copied!';
+      emailBtn.classList.add('copied');
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(() => {
+        emailBtn.textContent = emailText;
+        emailBtn.classList.remove('copied');
+      }, 1500);
+    }
+
+    function fallbackCopy() {
+      const ta = document.createElement('textarea');
+      ta.value = emailText;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showCopied(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    emailBtn.addEventListener('click', () => {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(emailText).then(showCopied, fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+    });
   </script>
 </body>
 </html>
