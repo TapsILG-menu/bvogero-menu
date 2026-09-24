@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BVOGERO — Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --ink: #1A1A1A;
+    --muted: #7A7A7A;
+    --line: #E4E1DC;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Work Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .sheet {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 44px 24px 60px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 0.02em;
+    margin: 0 0 8px;
+  }
+
+  .tagline {
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.03em;
+  }
+
+  .tabs-wrap {
+    position: relative;
+    margin-bottom: 36px;
+  }
+
+  nav.tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    cursor: grab;
+    user-select: none;
+  }
+  nav.tabs.dragging { cursor: grabbing; scroll-behavior: auto; }
+
+  .tab-arrow {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 4px;
+    width: 40px;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--ink);
+    font-size: 20px;
+    line-height: 1;
+    z-index: 2;
+    align-items: center;
+  }
+  .tab-arrow.prev { left: 0; justify-content: flex-start; background: linear-gradient(to right, #FFFFFF 55%, rgba(255,255,255,0)); }
+  .tab-arrow.next { right: 0; justify-content: flex-end; background: linear-gradient(to left, #FFFFFF 55%, rgba(255,255,255,0)); }
+  .tab-arrow.show { display: flex; }
+  @media (hover: none) { .tab-arrow { display: none !important; } }
+  nav.tabs::-webkit-scrollbar { display: none; }
+
+  nav.tabs button {
+    flex: 0 0 auto;
+    background: #F5F3EF;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-family: 'Work Sans', sans-serif;
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
+    padding: 9px 15px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  nav.tabs button.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #FFFFFF;
+    font-weight: 600;
+  }
+
+  section.hidden { display: none; }
+
+  section {
+    margin-bottom: 36px;
+  }
+  section:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .category {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 19px;
+    margin-bottom: 16px;
+  }
+
+  .item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .item:last-child { border-bottom: none; }
+
+  .item .name {
+    font-size: 15.5px;
+    color: var(--ink);
+  }
+
+  .item .fill {
+    flex: 1;
+  }
+
+  .item .price {
+    font-size: 15px;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  footer {
+    margin-top: 46px;
+    text-align: center;
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+  }
+
+  .review-btn {
+    display: inline-block;
+    background: var(--ink);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 600;
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+    padding: 12px 26px;
+    border-radius: 999px;
+  }
+
+  .review-note {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+</style>
+</head>
+<body>
+  <div class="sheet">
+    <header>
+      <h1>BVOGERO</h1>
+    </header>
+
+    <div class="tabs-wrap">
+    <button class="tab-arrow prev" aria-label="Scroll categories left">&#8249;</button>
+    <nav class="tabs">
+      <button class="active" data-cat="all">All</button>
+      <button data-cat="meals">Meals</button>
+      <button data-cat="bites">Bites & Sandwiches</button>
+      <button data-cat="pasta">Pasta</button>
+      <button data-cat="espresso">Espresso Classics</button>
+      <button data-cat="signatures">Signatures</button>
+      <button data-cat="matcha">Matcha Series</button>
+      <button data-cat="chocolate">Chocolate Series</button>
+      <button data-cat="fizzers">Fizzers</button>
+      <button data-cat="coolers">Coolers</button>
+      <button data-cat="addons">Add-ons</button>
+    </nav>
+    <button class="tab-arrow next" aria-label="Scroll categories right">&#8250;</button>
+    </div>
+
+    <section data-cat="meals">
+      <div class="category">Meals</div>
+      <div class="item"><span class="name">Garlic Pepper Beef</span><span class="fill"></span><span class="price">190.00</span></div>
+      <div class="item"><span class="name">Beijing Beef</span><span class="fill"></span><span class="price">195.00</span></div>
+      <div class="item"><span class="name">Chicken Teriyaki</span><span class="fill"></span><span class="price">170.00</span></div>
+      <div class="item"><span class="name">Korean Spicy Chicken</span><span class="fill"></span><span class="price">170.00</span></div>
+      <div class="item"><span class="name">Chicken Parmesan</span><span class="fill"></span><span class="price">190.00</span></div>
+    </section>
+
+    <section data-cat="bites">
+      <div class="category">Bites & Sandwiches</div>
+      <div class="item"><span class="name">Fries</span><span class="fill"></span><span class="price">120.00</span></div>
+      <div class="item"><span class="name">Nachos</span><span class="fill"></span><span class="price">170.00</span></div>
+      <div class="item"><span class="name">Crispy Chicken Sandwich</span><span class="fill"></span><span class="price">240.00</span></div>
+      <div class="item"><span class="name">Egg Ham Cheese Sandwich</span><span class="fill"></span><span class="price">240.00</span></div>
+      <div class="item"><span class="name">Tuna Sandwich</span><span class="fill"></span><span class="price">220.00</span></div>
+    </section>
+
+    <section data-cat="pasta">
+      <div class="category">Pasta</div>
+      <div class="item"><span class="name">Carbonara</span><span class="fill"></span><span class="price">210.00</span></div>
+      <div class="item"><span class="name">Tuna Pasta</span><span class="fill"></span><span class="price">210.00</span></div>
+      <div class="item"><span class="name">Beef Bolognese</span><span class="fill"></span><span class="price">260.00</span></div>
+      <div class="item"><span class="name">Chicken Alfredo</span><span class="fill"></span><span class="price">260.00</span></div>
+    </section>
+
+    <section data-cat="espresso">
+      <div class="category">Espresso Classics</div>
+      <div class="item"><span class="name">Espresso</span><span class="fill"></span><span class="price">60.00</span></div>
+      <div class="item"><span class="name">Americano</span><span class="fill"></span><span class="price">130.00</span></div>
+      <div class="item"><span class="name">Latte</span><span class="fill"></span><span class="price">160.00</span></div>
+      <div class="item"><span class="name">Spanish Latte</span><span class="fill"></span><span class="price">170.00</span></div>
+      <div class="item"><span class="name">Mocha Latte</span><span class="fill"></span><span class="price">170.00</span></div>
+      <div class="item"><span class="name">Vanilla Latte</span><span class="fill"></span><span class="price">170.00</span></div>
+      <div class="item"><span class="name">Caramel Latte</span><span class="fill"></span><span class="price">170.00</span></div>
+    </section>
+
+    <section data-cat="signatures">
+      <div class="category">Signatures</div>
+      <div class="item"><span class="name">Passion Americano</span><span class="fill"></span><span class="price">160.00</span></div>
+      <div class="item"><span class="name">Coconut Americano</span><span class="fill"></span><span class="price">160.00</span></div>
+      <div class="item"><span class="name">Coconut Cloud Latte</span><span class="fill"></span><span class="price">170.00</span></div>
+      <div class="item"><span class="name">Cream Cheese Latte</span><span class="fill"></span><span class="price">180.00</span></div>
+      <div class="item"><span class="name">Barista Latte</span><span class="fill"></span><span class="price">180.00</span></div>
+      <div class="item"><span class="name">Dalgona Latte</span><span class="fill"></span><span class="price">180.00</span></div>
+      <div class="item"><span class="name">Biscoff Latte</span><span class="fill"></span><span class="price">190.00</span></div>
+      <div class="item"><span class="name">Pistachio Latte</span><span class="fill"></span><span class="price">190.00</span></div>
+    </section>
+
+    <section data-cat="matcha">
+      <div class="category">Matcha Series</div>
+      <div class="item"><span class="name">Matcha Latte</span><span class="fill"></span><span class="price">170.00</span></div>
+      <div class="item"><span class="name">Strawberry Matcha</span><span class="fill"></span><span class="price">170.00</span></div>
+      <div class="item"><span class="name">Coconut Cloud Matcha</span><span class="fill"></span><span class="price">180.00</span></div>
+      <div class="item"><span class="name">Cream Cheese Matcha</span><span class="fill"></span><span class="price">180.00</span></div>
+      <div class="item"><span class="name">Barista Matcha</span><span class="fill"></span><span class="price">180.00</span></div>
+      <div class="item"><span class="name">Biscoff Matcha</span><span class="fill"></span><span class="price">190.00</span></div>
+      <div class="item"><span class="name">Pistachio Matcha</span><span class="fill"></span><span class="price">190.00</span></div>
+    </section>
+
+    <section data-cat="chocolate">
+      <div class="category">Chocolate Series</div>
+      <div class="item"><span class="name">Chocolate Latte</span><span class="fill"></span><span class="price">170.00</span></div>
+      <div class="item"><span class="name">Cream Cheese Choco</span><span class="fill"></span><span class="price">180.00</span></div>
+      <div class="item"><span class="name">Chocolate Dalgona</span><span class="fill"></span><span class="price">180.00</span></div>
+      <div class="item"><span class="name">Strawberry Choco</span><span class="fill"></span><span class="price">180.00</span></div>
+      <div class="item"><span class="name">Smores Choco</span><span class="fill"></span><span class="price">180.00</span></div>
+      <div class="item"><span class="name">Pistachio Choco</span><span class="fill"></span><span class="price">190.00</span></div>
+    </section>
+
+    <section data-cat="fizzers">
+      <div class="category">Fizzers</div>
+      <div class="item"><span class="name">Blueberry Lemon Fizz</span><span class="fill"></span><span class="price">140.00</span></div>
+      <div class="item"><span class="name">Strawberry Lemon Fizz</span><span class="fill"></span><span class="price">140.00</span></div>
+      <div class="item"><span class="name">Lemon Passion</span><span class="fill"></span><span class="price">140.00</span></div>
+    </section>
+
+    <section data-cat="coolers">
+      <div class="category">Coolers</div>
+      <div class="item"><span class="name">Iced Tea</span><span class="fill"></span><span class="price">85.00</span></div>
+      <div class="item"><span class="name">Blue Lemonade</span><span class="fill"></span><span class="price">85.00</span></div>
+      <div class="item"><span class="name">Cucumber Lemonade</span><span class="fill"></span><span class="price">85.00</span></div>
+    </section>
+
+    <section data-cat="addons">
+      <div class="category">Add-ons</div>
+      <div class="item"><span class="name">Oat Milk</span><span class="fill"></span><span class="price">40.00</span></div>
+      <div class="item"><span class="name">Cream Cheese Whip</span><span class="fill"></span><span class="price">40.00</span></div>
+    </section>
+
+    <footer>
+      <div class="review-note">Digital menu by <strong>Taps Iligan</strong> · @taps.iligan · taps.iligan@gmail.com</div>
+    </footer>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('nav.tabs button');
+    const sections = document.querySelectorAll('main section, .sheet section');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.cat;
+        sections.forEach(sec => {
+          if (cat === 'all' || sec.dataset.cat === cat) {
+            sec.classList.remove('hidden');
+          } else {
+            sec.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Laptop/desktop scrolling for the category tabs
+    const tabNav = document.querySelector('nav.tabs');
+    const prevBtn = document.querySelector('.tab-arrow.prev');
+    const nextBtn = document.querySelector('.tab-arrow.next');
+
+    function updateArrows() {
+      const max = tabNav.scrollWidth - tabNav.clientWidth;
+      prevBtn.classList.toggle('show', tabNav.scrollLeft > 4);
+      nextBtn.classList.toggle('show', tabNav.scrollLeft < max - 4);
+    }
+    tabNav.addEventListener('scroll', updateArrows);
+    window.addEventListener('resize', updateArrows);
+    updateArrows();
+
+    // Arrow buttons
+    prevBtn.addEventListener('click', () => tabNav.scrollBy({ left: -200 }));
+    nextBtn.addEventListener('click', () => tabNav.scrollBy({ left: 200 }));
+
+    // Mouse wheel scrolls tabs sideways
+    tabNav.addEventListener('wheel', e => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        tabNav.scrollBy({ left: e.deltaY, behavior: 'auto' });
+      }
+    }, { passive: false });
+
+    // Click and drag to scroll
+    let down = false, moved = false, startX = 0, startLeft = 0;
+    tabNav.addEventListener('mousedown', e => {
+      down = true; moved = false;
+      startX = e.pageX; startLeft = tabNav.scrollLeft;
+    });
+    window.addEventListener('mousemove', e => {
+      if (!down) return;
+      const dx = e.pageX - startX;
+      if (Math.abs(dx) > 5) { moved = true; tabNav.classList.add('dragging'); }
+      if (moved) tabNav.scrollLeft = startLeft - dx;
+    });
+    window.addEventListener('mouseup', () => {
+      down = false;
+      tabNav.classList.remove('dragging');
+    });
+    // Don't trigger a tab click at the end of a drag
+    tabNav.addEventListener('click', e => {
+      if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; }
+    }, true);
+  </script>
+</body>
+</html>
